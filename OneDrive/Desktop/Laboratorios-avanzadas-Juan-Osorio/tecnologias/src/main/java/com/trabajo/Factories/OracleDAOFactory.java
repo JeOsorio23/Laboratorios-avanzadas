@@ -7,19 +7,31 @@ import com.trabajo.DAO.EstudianteDAO;
 
 public class OracleDAOFactory implements DAOFactory{
     private final ConexionDB conexionDB;
+    private static OracleDAOFactory instancia;
 
-    public OracleDAOFactory(ConexionDB conexionDB){
+    private OracleDAOFactory(ConexionDB conexionDB){
         this.conexionDB = conexionDB;
+    }
+
+    public static OracleDAOFactory getInstancia(ConexionDB conexionDB){
+        if(instancia == null){
+            synchronized(OracleDAOFactory.class){
+                if(instancia == null){
+                    instancia = new OracleDAOFactory(conexionDB);
+                }
+            }
+        }
+        return instancia;
     }
 
     @Override
     public CursoDAO createCursoDAO(ConexionDB conexionDB){
-        return new CursoDAO(conexionDB);
+        return CursoDAO.getInstancia(conexionDB);
     }
 
     @Override
     public EstudianteDAO createEstudianteDAO(ConexionDB conexionDB){
-        return new EstudianteDAO(conexionDB);
+        return EstudianteDAO.getInstancia(conexionDB);
     }
 
     @Override
@@ -27,6 +39,6 @@ public class OracleDAOFactory implements DAOFactory{
         CursoDAO cursoDAO = createCursoDAO(conexionDB);
         EstudianteDAO estudianteDAO = createEstudianteDAO(conexionDB);
         
-        return new CursosInscritosDAO(conexionDB, cursoDAO, estudianteDAO);
+        return CursosInscritosDAO.getInstancia(conexionDB, cursoDAO, estudianteDAO);
     }
 }

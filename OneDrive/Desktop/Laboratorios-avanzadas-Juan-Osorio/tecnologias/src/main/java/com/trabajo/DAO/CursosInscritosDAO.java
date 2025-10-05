@@ -14,11 +14,23 @@ public class CursosInscritosDAO {
     private final ConexionDB conexionDB;
     private CursoDAO cursoDAO;
     private EstudianteDAO estudianteDAO;
+    private static CursosInscritosDAO instancia;
 
-    public CursosInscritosDAO(ConexionDB conexionDB, CursoDAO cursoDAO, EstudianteDAO estudianteDAO) {
+    private CursosInscritosDAO(ConexionDB conexionDB, CursoDAO cursoDAO, EstudianteDAO estudianteDAO) {
         this.conexionDB = conexionDB;
         this.cursoDAO = cursoDAO;
         this.estudianteDAO = estudianteDAO;
+    }
+
+    public static CursosInscritosDAO getInstancia(ConexionDB conexionDB, CursoDAO cursoDAO, EstudianteDAO estudianteDAO){
+        if(instancia == null){
+            synchronized(CursosInscritosDAO.class){
+                if(instancia == null){
+                    instancia = new CursosInscritosDAO(conexionDB, cursoDAO, estudianteDAO);
+                }
+            }
+        }
+        return instancia;
     }
 
     public void guardar(Inscripcion inscripcion) {

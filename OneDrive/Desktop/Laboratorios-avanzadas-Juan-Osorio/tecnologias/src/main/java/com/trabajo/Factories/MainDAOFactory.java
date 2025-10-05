@@ -1,6 +1,5 @@
 package com.trabajo.Factories;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,11 +18,11 @@ public class MainDAOFactory {
             String database = properties.getProperty("database.type");
 
             if("h2".equalsIgnoreCase(database)){
-                return new H2DAOFactory(conexionDB);
+                return H2DAOFactory.getInstancia(conexionDB);
             } else if ("oracle".equalsIgnoreCase(database)){
-                return new OracleDAOFactory(conexionDB);
+                return OracleDAOFactory.getInstancia(conexionDB);
             } else if ("mysql".equalsIgnoreCase(database)){
-                return new MySQLDAOFactory(conexionDB);
+                return MySQLDAOFactory.getInstancia(conexionDB);
             } else {
                 throw new IllegalArgumentException("Tipo de base de datos no encontrado o soportado" + database);
             }

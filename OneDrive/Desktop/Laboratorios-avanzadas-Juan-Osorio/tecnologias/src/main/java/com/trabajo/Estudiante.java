@@ -6,7 +6,8 @@ public class Estudiante extends Persona {
     private boolean activo;
     private Double promedio;
 
-    public Estudiante(Double id, String nombre, String apellidos, String email, Double codigo, Programa programa, boolean activo, Double promedio) {
+    public Estudiante(Double id, String nombre, String apellidos, String email, Double codigo, Programa programa,
+            boolean activo, Double promedio) {
         super(id, nombre, apellidos, email);
         this.codigo = codigo;
         this.programa = programa;
@@ -53,14 +54,14 @@ public class Estudiante extends Persona {
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", nombre='" + getNombre() + "'" +
-            ", apellidos='" + getApellidos() + "'" +
-            ", email='" + getEmail() + "'" +
-            " codigo='" + getCodigo() + "'" +
-            ", programa='" + getPrograma() + "'" +
-            ", activo='" + isActivo() + "'" +
-            ", promedio='" + getPromedio() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", nombre='" + getNombre() + "'" +
+                ", apellidos='" + getApellidos() + "'" +
+                ", email='" + getEmail() + "'" +
+                " codigo='" + getCodigo() + "'" +
+                ", programa='" + getPrograma() + "'" +
+                ", activo='" + isActivo() + "'" +
+                ", promedio='" + getPromedio() + "'" +
+                "}";
     }
 }

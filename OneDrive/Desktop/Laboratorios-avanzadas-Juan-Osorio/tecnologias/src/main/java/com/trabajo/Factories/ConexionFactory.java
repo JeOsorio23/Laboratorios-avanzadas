@@ -21,11 +21,11 @@ public class ConexionFactory{
             properties.load(inputStream);
             String database = properties.getProperty("database.type");
             if("h2".equalsIgnoreCase(database)){
-                return new H2Conexion();
+                return H2Conexion.getInstancia();
             } else if ("mysql".equalsIgnoreCase(database)){
-                return new MySQLConexion();
+                return MySQLConexion.getInstancia();
             } else if ("oracle".equalsIgnoreCase(database)){
-                return new OracleConexion();
+                return OracleConexion.getInstancia();
             } else {
                 throw new IllegalArgumentException("Tipo de base de datos no reconocida o soportada: " + database);
             }

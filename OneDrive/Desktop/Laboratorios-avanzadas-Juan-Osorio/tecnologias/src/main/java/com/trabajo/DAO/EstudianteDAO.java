@@ -13,9 +13,21 @@ import com.trabajo.Conexion.ConexionDB;
 
 public class EstudianteDAO {
     private final ConexionDB conexionDB;
+    private static EstudianteDAO instancia;
 
-    public EstudianteDAO(ConexionDB conexionDB) {
+    private EstudianteDAO(ConexionDB conexionDB) {
         this.conexionDB = conexionDB;
+    }
+
+    public static EstudianteDAO getInstancia(ConexionDB conexionDB){
+        if(instancia == null){
+            synchronized(EstudianteDAO.class){
+                if(instancia == null){
+                    instancia = new EstudianteDAO(conexionDB);
+                }
+            }
+        }
+        return instancia;
     }
 
     /**

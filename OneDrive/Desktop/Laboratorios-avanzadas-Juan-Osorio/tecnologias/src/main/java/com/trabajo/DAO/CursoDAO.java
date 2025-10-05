@@ -12,9 +12,21 @@ import com.trabajo.Conexion.ConexionDB;
 
 public class CursoDAO {
     private final ConexionDB conexionDB;
+    private static CursoDAO instancia;
 
-    public CursoDAO(ConexionDB conexionDB) {
+    private CursoDAO(ConexionDB conexionDB) {
         this.conexionDB = conexionDB;
+    }
+
+    public static CursoDAO getInstancia(ConexionDB conexionDB){
+        if(instancia == null){
+            synchronized(CursoDAO.class){
+                if(instancia == null){
+                    instancia = new CursoDAO(conexionDB);
+                }
+            }
+        }
+        return instancia;
     }
 
     public List<Curso> obtenerTodos() {

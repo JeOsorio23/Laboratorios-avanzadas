@@ -7,7 +7,10 @@ import com.trabajo.DAO.CursoDAO;
 import com.trabajo.DAO.CursosInscritosDAO;
 import com.trabajo.DAO.EstudianteDAO;
 import com.trabajo.Factories.DAOFactory;
+import com.trabajo.Factories.DatabaseDateUtil;
+import java.sql.Timestamp;
 import com.trabajo.Interfaz.EstudiantePanel;
+import com.trabajo.Interfaz.MenuConsolaThread;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,14 +32,16 @@ public class InterfazMain extends JFrame {
 
     private List<Curso> listaCursos;
     private List<Estudiante> listaEstudiantes;
+    private MenuConsolaThread menuConsola;
 
     public InterfazMain(DAOFactory factory, ConexionDB conexion) {
         super("Gestión de Inscripciones y Cursos");
-        
+
         this.cursoDAO = factory.createCursoDAO(conexion);
         this.estudianteDAO = factory.createEstudianteDAO(conexion);
         this.inscripcionDAO = factory.createInscripcionesDAO(conexion);
-
+        this.menuConsola = new MenuConsolaThread(conexion, estudianteDAO, cursoDAO);
+        this.menuConsola.start();
         setLayout(new BorderLayout(10, 10));
 
         JTabbedPane tabs = new JTabbedPane();
@@ -46,7 +51,24 @@ public class InterfazMain extends JFrame {
         JPanel inscripcionesPanel = new JPanel(new BorderLayout(10, 10));
         inscripcionesPanel.add(configurarFormulario(), BorderLayout.NORTH);
         inscripcionesPanel.add(new TablaInscripciones(inscripcionDAO), BorderLayout.CENTER);
+        try {
+            Timestamp fechaBD = DatabaseDateUtil.getCurrentDateTime(
+                    conexion.getConexion().getConexion() // Doble getConexion()
+            );
 
+            // Crear un JLabel para mostrar la fecha
+            JLabel lblFecha = new JLabel("Fecha BD: " + fechaBD);
+            lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
+            lblFecha.setFont(new Font("Arial", Font.BOLD, 12));
+            inscripcionesPanel.add(lblFecha, BorderLayout.SOUTH);
+
+            // También mostrar en consola
+            System.out.println("Fecha de la base de datos: " + fechaBD);
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener fecha de BD: " + e.getMessage());
+            e.printStackTrace();
+        }
         tabs.addTab("Inscripciones", inscripcionesPanel);
         tabs.addTab("Cursos", new JPanel());
         tabs.addTab("profesores", new JPanel());

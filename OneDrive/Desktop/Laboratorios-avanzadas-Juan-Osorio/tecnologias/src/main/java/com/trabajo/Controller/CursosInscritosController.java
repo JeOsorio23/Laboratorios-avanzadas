@@ -11,12 +11,22 @@ import com.trabajo.Interfaz.InterfazMain;
 public class CursosInscritosController {
     private InterfazMain interfazMain;
     private CursosInscritosDAO cursosInscritosDAO;
+    private static CursosInscritosController instancia;
 
-    public CursosInscritosController(InterfazMain interfazMain, CursosInscritosDAO cursosInscritosDAO){
+    private CursosInscritosController(InterfazMain interfazMain, CursosInscritosDAO cursosInscritosDAO){
         this.interfazMain = interfazMain;
         this.cursosInscritosDAO = cursosInscritosDAO;
         
         this.interfazMain.addInscribirListener(e -> inscribirCurso());
+    }
+
+    public static CursosInscritosController getInstancia(InterfazMain interfazMain, CursosInscritosDAO cursosInscritosDAO){
+        if(instancia == null){
+            synchronized(CursosInscritosController.class){
+                instancia = new CursosInscritosController(interfazMain, cursosInscritosDAO);
+            }
+        }
+        return instancia;
     }
     
     private void inscribirCurso() {
