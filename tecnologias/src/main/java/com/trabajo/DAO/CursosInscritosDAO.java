@@ -10,7 +10,7 @@ import com.trabajo.Inscripcion;
 import com.trabajo.Conexion.ConexionDB;
 import com.trabajo.DTO.InscripcionDTO;
 
-public class CursosInscritosDAO {
+public class CursosInscritosDAO extends ObservableDAO{
     private final ConexionDB conexionDB;
     private CursoDAO cursoDAO;
     private EstudianteDAO estudianteDAO;
@@ -42,6 +42,7 @@ public class CursosInscritosDAO {
             pstmt.setInt(4, inscripcion.getSemestre());
             pstmt.setDouble(5, inscripcion.getEstudiante().getId());
             pstmt.executeUpdate();
+            super.notificarCambio("Creacion", "CursosInscritos", "id: " + inscripcion.getId() + ", nombre curso: " + inscripcion.getCurso().getNombre() + ", nombre estudiante: " + inscripcion.getEstudiante().getNombre() + " " + inscripcion.getEstudiante().getApellidos());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,6 +53,7 @@ public class CursosInscritosDAO {
                 .prepareStatement("DELETE FROM INSCRIPCION WHERE id = ?")) {
             pstmt.setDouble(1, id);
             pstmt.executeUpdate();
+            super.notificarCambio("Eliminacion", "Cursos Inscritos", "id: " + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +66,7 @@ public class CursosInscritosDAO {
             pstmt.setInt(2, inscripcion.getSemestre());
             pstmt.setDouble(3, inscripcion.getId());
             pstmt.executeUpdate();
+            super.notificarCambio("Actualizacion", "Cursos Inscritos", "id: " + inscripcion.getId() + ", nombre curso: " + inscripcion.getCurso().getNombre() + ", nombre estudiante:" + inscripcion.getEstudiante().getApellidos() + " " + inscripcion.getEstudiante().getApellidos());
         } catch (SQLException e) {
             e.printStackTrace();
         }

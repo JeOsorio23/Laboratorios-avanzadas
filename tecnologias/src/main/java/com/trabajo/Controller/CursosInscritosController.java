@@ -23,7 +23,9 @@ public class CursosInscritosController {
     public static CursosInscritosController getInstancia(InterfazMain interfazMain, CursosInscritosDAO cursosInscritosDAO){
         if(instancia == null){
             synchronized(CursosInscritosController.class){
-                instancia = new CursosInscritosController(interfazMain, cursosInscritosDAO);
+                if(instancia == null){
+                    instancia = new CursosInscritosController(interfazMain, cursosInscritosDAO);
+                }
             }
         }
         return instancia;

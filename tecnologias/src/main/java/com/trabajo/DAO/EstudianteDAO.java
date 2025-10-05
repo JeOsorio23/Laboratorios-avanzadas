@@ -11,7 +11,7 @@ import com.trabajo.Estudiante;
 import com.trabajo.Programa;
 import com.trabajo.Conexion.ConexionDB;
 
-public class EstudianteDAO {
+public class EstudianteDAO extends ObservableDAO{
     private final ConexionDB conexionDB;
     private static EstudianteDAO instancia;
 
@@ -56,6 +56,7 @@ public class EstudianteDAO {
             pstmt.setDouble(8, estudiante.getPromedio());
             pstmt.executeUpdate();
             System.out.println("Estudiante insertado: " + estudiante.getNombre());
+            super.notificarCambio("Creacion", "Estudiante", "id: " + estudiante.getId() + ", nombre: " + estudiante.getNombre() + " " + estudiante.getApellidos());
         } catch (SQLException e) {
             System.err.println("Error al insertar estudiante: " + e.getMessage());
             e.printStackTrace();
@@ -132,6 +133,7 @@ public class EstudianteDAO {
             pstmt.setDouble(8, estudiante.getId());
             pstmt.executeUpdate();
             System.out.println("Estudiante actualizado: " + estudiante.getNombre());
+            super.notificarCambio("Actualizacion", "Estudiante", "id: " + estudiante.getId() + ", nombre: " + estudiante.getNombre() + " " + estudiante.getApellidos());
         } catch (SQLException e) {
             System.err.println("Error al actualizar estudiante: " + e.getMessage());
             e.printStackTrace();
@@ -150,6 +152,7 @@ public class EstudianteDAO {
             int filasAfectadas = pstmt.executeUpdate();
             if (filasAfectadas > 0) {
                 System.out.println("Estudiante con ID " + id + " eliminado.");
+                super.notificarCambio("Eliminacion", "Estudiante", "id: " + id);
             } else {
                 System.out.println("No se encontró ningún estudiante con ID " + id + " para eliminar.");
             }

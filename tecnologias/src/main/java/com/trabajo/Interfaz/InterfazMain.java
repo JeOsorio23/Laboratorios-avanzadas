@@ -40,12 +40,13 @@ public class InterfazMain extends JFrame {
         this.cursoDAO = factory.createCursoDAO(conexion);
         this.estudianteDAO = factory.createEstudianteDAO(conexion);
         this.inscripcionDAO = factory.createInscripcionesDAO(conexion);
+        this.tablaPanel = new TablaInscripciones(inscripcionDAO); 
+
         this.menuConsola = new MenuConsolaThread(conexion, estudianteDAO, cursoDAO);
         this.menuConsola.start();
         setLayout(new BorderLayout(10, 10));
 
         JTabbedPane tabs = new JTabbedPane();
-        // tabs.addTab("Estudiantes", new EstudianteTableModel());
         tabs.addTab("Estudiantes", new EstudiantePanel(estudianteDAO));
 
         JPanel inscripcionesPanel = new JPanel(new BorderLayout(10, 10));
@@ -70,15 +71,11 @@ public class InterfazMain extends JFrame {
             e.printStackTrace();
         }
         tabs.addTab("Inscripciones", inscripcionesPanel);
-        tabs.addTab("Cursos", new JPanel());
-        tabs.addTab("profesores", new JPanel());
-        tabs.addTab("Reportes", new JPanel());
+        //tabs.addTab("Cursos", new JPanel());
+        //tabs.addTab("profesores", new JPanel());
+        //tabs.addTab("Reportes", new JPanel());
 
         add(tabs, BorderLayout.CENTER);
-        /*
-         * tablaPanel = new TablaInscripciones(inscripcionDAO);
-         * this.add(tablaPanel, BorderLayout.CENTER);
-         */
 
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

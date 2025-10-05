@@ -10,7 +10,7 @@ import java.util.List;
 import com.trabajo.Curso;
 import com.trabajo.Conexion.ConexionDB;
 
-public class CursoDAO {
+public class CursoDAO extends ObservableDAO{
     private final ConexionDB conexionDB;
     private static CursoDAO instancia;
 
