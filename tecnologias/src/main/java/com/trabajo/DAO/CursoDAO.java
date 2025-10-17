@@ -49,7 +49,7 @@ public class CursoDAO extends ObservableDAO{
     public Curso buscarPorId(Double id) {
     Curso curso = null;
     try (PreparedStatement pstmt = conexionDB.getConexion().getConexion()
-            .prepareStatement("SELECT * FROM CURSO WHERE id = ?")) {
+            .prepareStatement("SELECT * FROM curso WHERE id = ?")) {
         pstmt.setDouble(1, id);
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {

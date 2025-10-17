@@ -65,3 +65,5 @@ INSERT INTO inscripcion (id, curso_id, ano, semestre, estudiante_id) VALUES
 (5004, 104, 2025, 1, 1001),
 (5005, 105, 2023, 2, 1004),
 (5006, 101, 2025, 1, 1005);
+
+ALTER DATABASE cursos_inscritos CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

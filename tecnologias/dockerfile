@@ -1,0 +1,16 @@
+# Imagen base con Java 17 instalado
+FROM openjdk:17-jdk-slim
+
+# Directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copia el JAR con recursos incluidos (config.properties, drivers, etc)
+COPY tuapp.jar ./
+COPY src/main/java/com/trabajo/libs ./libs
+
+
+# Expone el puerto si la app lo requiere (opcional)
+# EXPOSE 8080
+
+# Comando para ejecutar tu app
+CMD ["java", "-cp", "tuapp.jar:libs/*", "com.trabajo.Main"]

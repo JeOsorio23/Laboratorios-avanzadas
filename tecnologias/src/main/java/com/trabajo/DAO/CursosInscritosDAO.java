@@ -35,7 +35,7 @@ public class CursosInscritosDAO extends ObservableDAO{
 
     public void guardar(Inscripcion inscripcion) {
         try (PreparedStatement pstmt = conexionDB.getConexion().getConexion()
-                .prepareStatement("MERGE INTO INSCRIPCION (id, curso_id, ano, semestre, estudiante_id) VALUES (?, ?, ?, ?, ?)")) {
+                .prepareStatement("insert INTO inscripcion (id, curso_id, ano, semestre, estudiante_id) VALUES (?, ?, ?, ?, ?)")) {
             pstmt.setDouble(1, inscripcion.getId());
             pstmt.setDouble(2, inscripcion.getCurso().getId());
             pstmt.setInt(3, inscripcion.getAno());
@@ -50,7 +50,7 @@ public class CursosInscritosDAO extends ObservableDAO{
 
     public void eliminar(Double id) {
         try (PreparedStatement pstmt = conexionDB.getConexion().getConexion()
-                .prepareStatement("DELETE FROM INSCRIPCION WHERE id = ?")) {
+                .prepareStatement("DELETE FROM inscripcion WHERE id = ?")) {
             pstmt.setDouble(1, id);
             pstmt.executeUpdate();
             super.notificarCambio("Eliminacion", "Cursos Inscritos", "id: " + id);
@@ -61,7 +61,7 @@ public class CursosInscritosDAO extends ObservableDAO{
 
     public void actualizar(Inscripcion inscripcion) {
         try (PreparedStatement pstmt = conexionDB.getConexion().getConexion()
-                .prepareStatement("UPDATE INSCRIPCION SET ano = ?, semestre = ? WHERE id = ?")) {
+                .prepareStatement("UPDATE inscripcion SET ano = ?, semestre = ? WHERE id = ?")) {
             pstmt.setInt(1, inscripcion.getAno());
             pstmt.setInt(2, inscripcion.getSemestre());
             pstmt.setDouble(3, inscripcion.getId());
@@ -75,7 +75,7 @@ public class CursosInscritosDAO extends ObservableDAO{
     public Double obtenerSiguienteId() {
         Double maxId = 0.0;
         try (Statement stmt = conexionDB.getConexion().getConexion().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS max_id FROM INSCRIPCION")) {
+             ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS max_id FROM inscripcion")) {
             if (rs.next()) {
                 maxId = rs.getDouble("max_id");
             }
@@ -88,7 +88,7 @@ public class CursosInscritosDAO extends ObservableDAO{
     public List<InscripcionDTO> cargarTodos() {
         List<InscripcionDTO> lista = new ArrayList<>();
         try (Statement stmt = conexionDB.getConexion().getConexion().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM INSCRIPCION")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM inscripcion")) {
             while (rs.next()) {
                 Double id = rs.getDouble("id");
                 Double curso_id = rs.getDouble("curso_id");
